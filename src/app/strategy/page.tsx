@@ -19,7 +19,7 @@ export default function Strategy({
     const interests = getComposedInterest(config);
 
     return (
-      <Tabs defaultValue='monthly'>
+      <Tabs defaultValue='yearly'>
         <div className='p-14 gap-4 flex flex-col '>
           <div className='flex gap-4 self-end'>
             <ClipboardButton />
