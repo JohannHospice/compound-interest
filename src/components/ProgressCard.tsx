@@ -29,7 +29,9 @@ export function ProgressCard({
       </CardHeader>
       <CardContent>
         <div className='text-xs text-muted-foreground'>
-          {ratio ? `${formatPercent(value / ratio)} sur objectif` : undefined}
+          {ratio
+            ? `${formatPercent(value / ratio - 1)} sur objectif`
+            : undefined}
         </div>
       </CardContent>
       {value && (

@@ -7,9 +7,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  useFormField,
 } from './ui/form';
 import { Input, InputProps } from './ui/input';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import { cn } from '../lib/utils';
 
 export function FormInputField<
   TFieldValues extends FieldValues = FieldValues,
@@ -52,11 +54,16 @@ const FormInput = React.forwardRef(
     },
     ref: React.Ref<HTMLInputElement>
   ) => {
+    const { error } = useFormField();
     return (
       <FormItem>
         <FormLabel htmlFor={props.id}>{props.label}</FormLabel>
         <FormControl>
-          <Input {...props} ref={ref} />
+          <Input
+            {...props}
+            ref={ref}
+            className={cn(error ? 'border-red-500' : undefined)}
+          />
         </FormControl>
         <FormDescription>{props.description}</FormDescription>
         <FormMessage />
@@ -64,4 +71,4 @@ const FormInput = React.forwardRef(
     );
   }
 );
-FormInput.displayName = 'InputWithLabel';
+FormInput.displayName = 'FormInput';

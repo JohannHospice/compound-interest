@@ -18,6 +18,7 @@ import {
   schemaConfig,
 } from '../../../validators/schema';
 import { Copy } from 'lucide-react';
+import { ClipboardButton } from './ClipboardButton';
 
 export default function Strategy({
   searchParams,
@@ -31,15 +32,13 @@ export default function Strategy({
 
     return (
       <div className='p-14 gap-4 flex flex-col items-end'>
-        {/* clipboard the link of the website */}
-        <Clientrtuc />
+        <ClipboardButton />
         <Tabs defaultValue='account'>
           <TabsList>
             <TabsTrigger value='account'>Mensuel</TabsTrigger>
             <TabsTrigger value='password'>Annuel</TabsTrigger>
           </TabsList>
         </Tabs>
-
         <div className='grid flex-1 items-start gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
           <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
             <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-7'>
@@ -94,19 +93,6 @@ export default function Strategy({
           <code>{JSON.stringify(error, null, 2)}</code>
         </pre>
       </main>
-    );
-  }
-
-  function Clientrtuc({}) {
-    return (
-      <Button
-        onClick={() => {
-          navigator.clipboard.writeText(window.location.href);
-        }}
-      >
-        <Copy />
-        Copier le lien
-      </Button>
     );
   }
 }
