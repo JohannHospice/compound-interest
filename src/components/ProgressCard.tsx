@@ -1,3 +1,4 @@
+'use client';
 import {
   Card,
   CardContent,
@@ -28,7 +29,7 @@ export function ProgressCard({
       </CardHeader>
       <CardContent>
         <div className='text-xs text-muted-foreground'>
-          {ratio ? `${formatPercent(value / ratio)} de l'objectif` : undefined}
+          {ratio ? `${formatPercent(value / ratio)} sur objectif` : undefined}
         </div>
       </CardContent>
       {value && (

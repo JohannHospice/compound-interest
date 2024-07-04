@@ -19,17 +19,26 @@ export function FormInputField<
   name,
   label,
   type,
+  description,
 }: {
   control: Control<TFieldValues>;
   name: TName;
   label?: string;
   type?: HTMLInputTypeAttribute;
+  description?: string;
 }) {
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => <FormInput {...field} label={label} type={type} />}
+      render={({ field }) => (
+        <FormInput
+          {...field}
+          label={label}
+          type={type}
+          description={description}
+        />
+      )}
     />
   );
 }

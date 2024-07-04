@@ -36,55 +36,56 @@ export function FormCompoundInterest() {
         <FormInputField
           control={form.control}
           name='from'
-          label='Date de début'
+          label="Quelle année commencer l'investissement ?"
           type='number'
         />
         <FormInputField
           control={form.control}
           name='age'
-          label='Age'
+          label='Quel âge avez-vous ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='until_age'
-          label='Age cible'
+          label='À quel âge souhaitez-vous partir à la retraite ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='principal'
-          label='Capital initial'
+          label='Quel sera votre apport initial ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='compound'
-          label='Investissement mensuel'
+          label='Combien souhaitez-vous investir chaque mois ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='interestRate'
-          label='Taux de rendement'
+          label='Quel sera le taux d’intérêt sur vos investissements ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='taxRate'
-          label='Taux d’imposition'
+          label="Quel est le taux d'imposition sur les plus-values à appliquer ?"
+          description='En France, le taux d’imposition sur les plus-values est de 30% lors de la vente de vos actifs.'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='targetPrincipal'
-          label='Capital cible'
+          label='Quel valeur souhaitez-vous que votre capital atteigne ?'
           type='number'
         />
         <FormInputField
           control={form.control}
           name='targetInterest'
-          label='Intérêts cibles'
+          label='Quel valeur souhaitez-vous que vos intérêts atteignent ?'
           type='number'
         />
         <Button type='submit' disabled={form.formState.isSubmitting}>

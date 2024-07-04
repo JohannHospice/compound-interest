@@ -1,4 +1,4 @@
-import { formatDevice } from '@/lib/utils';
+import { cn, formatDevice } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -9,7 +9,14 @@ import {
 import { InterestByYear } from '../services/getComposedInterest';
 import { Badge } from './ui/badge';
 
-export function SnowballTable({ data }: { data: InterestByYear[] }) {
+export function SnowballTable({
+  interestByYears,
+  isMonthly,
+}: {
+  interestByYears: InterestByYear[];
+  isMonthly?: boolean;
+}) {
+  const factor = isMonthly ? 12 : 1;
   return (
     <Table>
       <TableHeader>
@@ -19,13 +26,15 @@ export function SnowballTable({ data }: { data: InterestByYear[] }) {
           <TableCell className='hidden sm:table-cell'>Apport total</TableCell>
           <TableCell className='hidden md:table-cell'>Statut</TableCell>
           <TableCell className='hidden md:table-cell'>
-            Intéret brut annuel
+            Intéret brut{isMonthly ? ' mensuel' : ' annuel'}
           </TableCell>
-          <TableCell className='text-right'>Intéret net annuel</TableCell>
+          <TableCell className='text-right'>
+            Intéret net{isMonthly ? ' mensuel' : ' annuel'}
+          </TableCell>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((value, index) => (
+        {interestByYears.map((value, index) => (
           <TableRow key={index}>
             <TableCell>
               <div className='font-medium'>{value.year}</div>
@@ -38,12 +47,11 @@ export function SnowballTable({ data }: { data: InterestByYear[] }) {
             <TableCell className='hidden sm:table-cell'>
               {formatDevice(value.compound)}
             </TableCell>
-            {/* <TableCell className='hidden sm:table-cell'>Sale</TableCell> */}
             <TableCell className='hidden sm:table-cell'>
               <div className='flex flex-col gap-2 flex-wrap items-start'>
                 {value.status.length === 0 ? (
                   <Badge className='text-xs' variant='outline'>
-                    Actif
+                    Accumulation
                   </Badge>
                 ) : (
                   value.status.map((status, index) => (
@@ -55,10 +63,10 @@ export function SnowballTable({ data }: { data: InterestByYear[] }) {
               </div>
             </TableCell>
             <TableCell className='hidden md:table-cell'>
-              {formatDevice(value.interest)}
+              {formatDevice(value.interest / factor)}
             </TableCell>
             <TableCell className='text-right'>
-              {formatDevice(value.taxedInterest)}
+              {formatDevice(value.taxedInterest / factor)}
             </TableCell>
           </TableRow>
         ))}

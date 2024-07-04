@@ -2,21 +2,26 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
 import { Separator } from '../components/ui/separator';
-import { cn, formatDevice } from '../lib/utils';
+import { cn, formatDevice, formatPercent } from '../lib/utils';
 import { InterestByYear } from '../services/getComposedInterest';
 import { CompoundInterestConfig } from '../validators/schema';
+import { ChartInterests } from './ChartInterests';
 
 export function SummaryCard({
   interests,
   config,
+  isMonthly,
 }: {
   interests: InterestByYear[];
   config: CompoundInterestConfig;
+  isMonthly?: boolean;
 }) {
+  const factor = isMonthly ? 12 : 1;
   return (
     <Card className='overflow-hidden' x-chunk='dashboard-05-chunk-4'>
       <CardHeader className='flex flex-row items-start bg-muted/50'>
@@ -55,32 +60,39 @@ export function SummaryCard({
               name='Apport initial'
               value={formatDevice(config.principal)}
             />
-            <Separator className='my-2' />
             <CardItem
-              name='Investissement mensuel'
-              value={formatDevice(config.compound)}
-            />
-            <CardItem
-              name='Investissement annuel'
-              value={formatDevice(config.compound * 12)}
+              name={`Apport ${isMonthly ? 'mensuel' : 'annuel'}`}
+              value={formatDevice((config.compound * 12) / factor)}
             />
           </ul>
           <Separator className='my-2' />
           <ul className='grid gap-3'>
-            <CardItem name="Taux d'intérêt" value={config.interestRate + '%'} />
-          </ul>
-          <Separator className='my-2' />
-          <ul className='grid gap-3'>
             <CardItem
-              name='Intérêts brut annuel'
-              value={formatDevice(interests[interests.length - 1].interest)}
+              name="Taux d'intérêt"
+              value={formatPercent(config.interestRate / 100)}
             />
             <CardItem
-              name='Intérêts net annuel'
+              name={`Intérêts brut ${isMonthly ? 'mensuel' : 'annuel'}`}
               value={formatDevice(
-                interests[interests.length - 1].taxedInterest
+                interests[interests.length - 1].interest / factor
               )}
             />
+          </ul>
+          <Separator className='my-2' />
+          <ul className='grid gap-3'>
+            <CardItem
+              name="Taux d'imposition sur plus-value"
+              value={formatPercent(-config.taxRate / 100)}
+            />
+            <CardItem
+              name={`Intérêts net ${isMonthly ? 'mensuel' : 'annuel'}`}
+              value={formatDevice(
+                interests[interests.length - 1].taxedInterest / factor
+              )}
+            />
+          </ul>
+          <Separator className='my-2' />
+          <ul className='grid gap-3'>
             <CardItem
               name='Capital final'
               value={formatDevice(interests[interests.length - 1].principal)}
@@ -88,7 +100,6 @@ export function SummaryCard({
             />
           </ul>
         </CardGroup>
-        <Separator className='my-4' />
         {/* <div className='grid grid-cols-2 gap-4'>
           <div className='grid gap-3'>
             <div className='font-semibold'>Shipping Information</div>
@@ -106,14 +117,6 @@ export function SummaryCard({
           </div>
         </div>
         <Separator className='my-4' /> */}
-        <CardGroup title='Détail des impositions'>
-          <ul className='grid gap-3'>
-            <CardItem
-              name="Taux d'imposition sur plus-value"
-              value={config.taxRate + '%'}
-            />
-          </ul>
-        </CardGroup>
       </CardContent>
     </Card>
   );
