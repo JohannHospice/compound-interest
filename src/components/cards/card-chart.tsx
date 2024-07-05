@@ -1,15 +1,14 @@
 'use client';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { InterestByYear } from '@/services/getComposedInterest';
+import { CompoundInterestConfig } from '@/validators/schema';
+import { ChartOptions, LinearScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
-import { ChartDataset, ChartOptions, LinearScale, Point } from 'chart.js';
 
-import { InterestByYear } from '../services/getComposedInterest';
-import { Card, CardContent } from './ui/card';
-import { CompoundInterestConfig } from '../validators/schema';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 Chart.register(LinearScale);
 
-export function ChartInterests({
+export function CardChart({
   interests,
   config,
   isMonthly,

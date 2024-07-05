@@ -1,100 +1,32 @@
 'use client';
-import { toQueryString } from '@/lib/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { FormInputField } from './FormInputField';
-import { FormSliderField } from './FormSliderField';
-import { Stepper, StepperFooter, StepperHeading, useStepper } from './Stepper';
-import { Form } from './ui/form';
 import {
+  Euro,
   HandCoins,
   TargetIcon,
   TreesIcon,
-  User,
   UserCircle,
 } from 'lucide-react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { StepperFooter, StepperHeading, useStepper } from '../stepper';
+import { Form, FormInputField, FormSliderField } from '../ui/form';
+import {
+  investmentSchema,
+  performanceSchema,
+  profileSchema,
+  targetSchema,
+} from './validators';
 
-const stepOneSchema = yup.object().shape({
-  from: yup
-    .number()
-    .nonNullable()
-    .min(1900)
-    .max(new Date().getFullYear())
-    .required(),
-  age: yup.number().nonNullable().min(7).max(120).required(),
-  until_age: yup.number().max(120).required(),
-});
-export const step2schema = yup.object().shape({
-  principal: yup.number().min(0).required(),
-  compound: yup.number().nonNullable().min(0).required(),
-});
+type FormProps<T extends yup.ISchema<any, any>> = {
+  onSubmit: (data: yup.InferType<T>) => void;
+  values?: Partial<yup.InferType<T>>;
+};
 
-export const step3schema = yup.object().shape({
-  targetPrincipal: yup.number().min(0),
-  targetInterest: yup.number().min(0),
-});
-export const step4schema = yup.object().shape({
-  interestRate: yup.number().nonNullable().min(0).max(100).required(),
-  taxRate: yup.number().nonNullable().min(0).max(100).required(),
-});
-const maxiSchema = stepOneSchema
-  .concat(step2schema)
-  .concat(step3schema)
-  .concat(step4schema);
-
-export function FormCompoundInterest() {
-  const params = useSearchParams();
-  const router = useRouter();
-
-  const storedValues = useMemo<
-    Partial<yup.InferType<typeof maxiSchema>>
-  >(() => {
-    const configFromParams: Record<string, any> = {};
-    params.forEach((value, key) => (configFromParams[key] = value));
-    return configFromParams;
-  }, [params]);
-
-  const onSubmit = useCallback(
-    (values: Partial<yup.InferType<typeof maxiSchema>>) => {
-      router.push(
-        `/strategy?${toQueryString({
-          ...storedValues,
-          ...values,
-        })}`
-      );
-    },
-    [router, storedValues]
-  );
-
-  const updateData = useCallback(
-    (values: Partial<yup.InferType<typeof maxiSchema>>) => {
-      router.push('?' + toQueryString({ ...storedValues, ...values }));
-    },
-    [router, storedValues]
-  );
-
-  return (
-    <Stepper>
-      <ProfileForm values={storedValues} onSubmit={updateData} />
-      <InvestingCapacityStepForm values={storedValues} onSubmit={updateData} />
-      <TargetStepForm values={storedValues} onSubmit={updateData} />
-      <FinancialStepForm values={storedValues} onSubmit={onSubmit} />
-    </Stepper>
-  );
-}
-
-function ProfileForm({
-  onSubmit,
-  values,
-}: {
-  onSubmit: (data: yup.InferType<typeof stepOneSchema>) => void;
-  values?: Partial<yup.InferType<typeof stepOneSchema>>;
-}) {
+function ProfileForm({ onSubmit, values }: FormProps<typeof profileSchema>) {
   const form = useForm({
-    resolver: yupResolver(stepOneSchema),
+    resolver: yupResolver(profileSchema),
     defaultValues: {
       from: new Date().getFullYear(),
       until_age: 42,
@@ -123,9 +55,8 @@ function ProfileForm({
       >
         <div className='space-y-8 flex flex-col'>
           <StepperHeading icon={UserCircle} title="Votre profil d'investisseur">
-            Pour déterminer la meilleure stratégie d’investissement pour vous,
-            nous avons besoin de quelques informations sur votre situation
-            actuelle.
+            Avec votre profil, nous pourrons calculer selon différents échelles
+            de temps les revenus de vos investissements.
           </StepperHeading>
           <FormInputField
             control={form.control}
@@ -138,6 +69,7 @@ function ProfileForm({
             name='age'
             label='Quel âge avez-vous ? *'
             type='number'
+            endAdornment='ans'
           />
           <FormSliderField
             control={form.control}
@@ -154,21 +86,20 @@ function ProfileForm({
   );
 }
 
-function InvestingCapacityStepForm({
+function InvestmentForm({
   onSubmit,
   values,
-}: {
-  onSubmit: (data: yup.InferType<typeof step2schema>) => void;
-  values?: Partial<yup.InferType<typeof step2schema>>;
-}) {
+}: FormProps<typeof investmentSchema>) {
   const form = useForm({
-    resolver: yupResolver(step2schema),
+    resolver: yupResolver(investmentSchema),
     defaultValues: {},
   });
   const { next } = useStepper();
+
   useEffect(() => {
     form.reset(values);
   }, [values, form]);
+
   return (
     <Form {...form}>
       <form
@@ -189,6 +120,7 @@ function InvestingCapacityStepForm({
             label='Quel est le montant de votre apport initial ? *'
             description='Plus votre capital de départ est gros et vous serez en avance sur vos objectifs.'
             type='number'
+            endAdornment={Euro}
           />
           <FormInputField
             control={form.control}
@@ -196,6 +128,7 @@ function InvestingCapacityStepForm({
             label='Combien souhaitez-vous investir chaque mois ? *'
             description='Les dépenses mensuelles sont à prendre en compte pour déterminer le montant que vous pouvez investir.'
             type='number'
+            endAdornment={Euro}
           />
         </div>
         <StepperFooter isNextDisabled={form.formState.isSubmitting} />
@@ -204,15 +137,9 @@ function InvestingCapacityStepForm({
   );
 }
 
-function TargetStepForm({
-  onSubmit,
-  values,
-}: {
-  onSubmit: (data: yup.InferType<typeof step3schema>) => void;
-  values?: Partial<yup.InferType<typeof step3schema>>;
-}) {
+function TargetForm({ onSubmit, values }: FormProps<typeof targetSchema>) {
   const form = useForm({
-    resolver: yupResolver(step3schema),
+    resolver: yupResolver(targetSchema),
   });
   const { next } = useStepper();
   useEffect(() => {
@@ -238,6 +165,7 @@ function TargetStepForm({
             name='targetPrincipal'
             label='Quel valeur souhaitez-vous que votre capital atteigne ?'
             type='number'
+            endAdornment={Euro}
           />
           <FormInputField
             control={form.control}
@@ -245,6 +173,7 @@ function TargetStepForm({
             label="Combien d'interets souhaitez-vous gagner chaque année ?"
             description='Une rente construite soi même pour vos vieux jours est tout à fait envisageable.'
             type='number'
+            endAdornment={Euro}
           />
         </div>
         <StepperFooter
@@ -259,12 +188,9 @@ function TargetStepForm({
 function FinancialStepForm({
   onSubmit,
   values,
-}: {
-  onSubmit: (data: yup.InferType<typeof step4schema>) => void;
-  values?: Partial<yup.InferType<typeof step4schema>>;
-}) {
+}: FormProps<typeof performanceSchema>) {
   const form = useForm({
-    resolver: yupResolver(step4schema),
+    resolver: yupResolver(performanceSchema),
     defaultValues: {
       interestRate: 8,
       taxRate: 30,
@@ -313,3 +239,5 @@ function FinancialStepForm({
     </Form>
   );
 }
+
+export { FinancialStepForm, InvestmentForm, ProfileForm, TargetForm };

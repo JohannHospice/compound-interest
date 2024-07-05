@@ -1,30 +1,27 @@
-import { ActionCard } from '../../../components/ActionCard';
-import { ChartInterests } from '../../../components/ChartInterests';
-import { ProgressCard } from '../../../components/ProgressCard';
-import { SnowballTable } from '../../../components/SnowballTable';
-import { SummaryCard } from '../../../components/SummaryCard';
+import { CardAction } from '@/components/cards/card-action';
+import { CardChart } from '@/components/cards/card-chart';
+import { CardProgress } from '@/components/cards/card-progress';
+import { CardSummary } from '@/components/cards/card-summary';
+import { SnowballTable } from '@/components/snowball-table';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '../../../components/ui/tabs';
-import { getComposedInterest } from '../../../services/getComposedInterest';
-import {
-  CompoundInterestConfig,
-  schemaConfig,
-} from '../../../validators/schema';
+} from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { getComposedInterest } from '@/services/getComposedInterest';
 import { ClipboardButton } from './ClipboardButton';
-
+import { allSchema } from '../../../components/forms/validators';
+import * as yup from 'yup';
 export default function Strategy({
   searchParams,
 }: {
-  searchParams: CompoundInterestConfig;
+  searchParams: yup.InferType<typeof allSchema>;
 }) {
   try {
-    const config = schemaConfig.validateSync(searchParams);
+    const config = allSchema.validateSync(searchParams);
     const interests = getComposedInterest(config);
     const lastYear = interests[interests.length - 1];
 
@@ -41,7 +38,7 @@ export default function Strategy({
           <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
             <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-7'>
               <div className='sm:col-span-3'>
-                <ActionCard
+                <CardAction
                   title='Tes intérêts composés'
                   description="Découvrez notre puissante stratégie d'intérêts composés pour maximiser vos investissements."
                   button={{
@@ -51,14 +48,14 @@ export default function Strategy({
                 />
               </div>
               <div className='sm:col-span-2'>
-                <ProgressCard
+                <CardProgress
                   description='Le capital final'
                   value={lastYear.principal}
                   ratio={config.targetPrincipal}
                 />
               </div>
               <div className='sm:col-span-2'>
-                <ProgressCard
+                <CardProgress
                   description='Les intérets annuels'
                   value={lastYear.interest}
                   ratio={config.targetInterest}
@@ -78,8 +75,8 @@ export default function Strategy({
             </Card>
           </div>
           <div className='flex flex-col gap-8'>
-            <SummaryCard interests={interests} config={config} />
-            <ChartInterests interests={interests} config={config} />
+            <CardSummary interests={interests} config={config} />
+            <CardChart interests={interests} config={config} />
           </div>
         </div>
       </div>

@@ -10,45 +10,57 @@ export const StepperContext = React.createContext({
   previous: () => {},
 });
 
-export function Stepper({ children }: { children: React.ReactNode[] }) {
+export const useStepper = () => React.useContext(StepperContext);
+
+export const StepperProvider = (props: { children: React.ReactNode[] }) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const previousStep = useCallback(() => {
-    setCurrentStep((prev) => (prev === 0 ? 0 : prev - 1));
+    setCurrentStep((prev) => {
+      return prev === 0 ? 0 : prev - 1;
+    });
   }, []);
 
   const nextStep = useCallback(() => {
-    setCurrentStep((prev) => (prev < children.length - 1 ? prev + 1 : prev));
-  }, [children]);
+    setCurrentStep((prev) => {
+      return prev < props.children.length - 1 ? prev + 1 : prev;
+    });
+  }, [props.children.length]);
 
   return (
     <StepperContext.Provider
       value={{
         index: currentStep,
-        length: children.length,
+        length: props.children.length,
         next: nextStep,
         previous: previousStep,
       }}
     >
-      {children.length === 0 ? null : children[currentStep]}
+      {props.children.length === 0 ? null : props.children[currentStep]}
     </StepperContext.Provider>
   );
-}
+};
 
-export function useStepper() {
-  return React.useContext(StepperContext);
-}
+export const StepperHeading = (props: {
+  title: string;
+  children: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+}) => (
+  <div className='space-y-4 flex flex-col'>
+    <h2 className='text-2xl font-bold flex items-center'>
+      <props.icon className='h-8 w-8 inline-block mr-2' />
+      {props.title}
+    </h2>
+    <p className='text-lg text-gray-600'>{props.children}</p>
+  </div>
+);
 
-export function StepperFooter({
-  onNext,
-  isNextDisabled,
-  isSkippable,
-}: {
-  onNext?: () => void;
+export const StepperFooter = (props: {
   isSkippable?: boolean;
   isNextDisabled?: boolean;
-}) {
+}) => {
   const { index, length, next, previous } = useStepper();
+
   return (
     <div className='flex justify-between gap-4'>
       {index > 0 ? (
@@ -60,35 +72,15 @@ export function StepperFooter({
         <div />
       )}
       <div className='flex gap-4'>
-        {isSkippable && (
+        {props.isSkippable && (
           <Button variant='outline' onClick={next}>
             Passer
           </Button>
         )}
-        <Button type='submit' disabled={isNextDisabled}>
+        <Button type='submit' disabled={props.isNextDisabled}>
           {index === length - 1 ? 'Envoyer' : 'Suivant'}
         </Button>
       </div>
     </div>
   );
-}
-
-export function StepperHeading({
-  title,
-  children,
-  icon: Icon,
-}: {
-  title: string;
-  children: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-}) {
-  return (
-    <div className='space-y-4 flex flex-col'>
-      <h2 className='text-2xl font-bold flex items-center'>
-        <Icon className='h-8 w-8 inline-block mr-2' />
-        {title}
-      </h2>
-      <p className='text-lg text-gray-600'>{children}</p>
-    </div>
-  );
-}
+};

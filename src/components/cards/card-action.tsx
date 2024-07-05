@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { Button } from '../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../components/ui/card';
+} from '@/components/ui/card';
 
-export function ActionCard({
+export function CardAction({
   title,
   description,
   button,

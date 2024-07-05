@@ -7,19 +7,20 @@ import {
   TabsTrigger,
 } from '../../components/ui/tabs';
 import { getComposedInterest } from '../../services/getComposedInterest';
-import { CompoundInterestConfig, schemaConfig } from '../../validators/schema';
 import { ClipboardButton } from './components/ClipboardButton';
 import { StrategyGrid } from './components/StrategyGrid';
 import { ArrowLeft } from 'lucide-react';
 import { toQueryString } from '../../lib/utils';
+import { allSchema } from '../../components/forms/validators';
+import * as yup from 'yup';
 
 export default function Strategy({
   searchParams,
 }: {
-  searchParams: CompoundInterestConfig;
+  searchParams: yup.InferType<typeof allSchema>;
 }) {
   try {
-    const config = schemaConfig.validateSync(searchParams);
+    const config = allSchema.validateSync(searchParams);
     const interests = getComposedInterest(config);
 
     return (

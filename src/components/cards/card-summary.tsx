@@ -2,17 +2,15 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from '../components/ui/card';
-import { Separator } from '../components/ui/separator';
-import { cn, formatDevice, formatPercent } from '../lib/utils';
-import { InterestByYear } from '../services/getComposedInterest';
-import { CompoundInterestConfig } from '../validators/schema';
-import { ChartInterests } from './ChartInterests';
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { cn, formatDevice, formatPercent } from '@/lib/utils';
+import { InterestByYear } from '@/services/getComposedInterest';
+import { CompoundInterestConfig } from '@/validators/schema';
 
-export function SummaryCard({
+export function CardSummary({
   interests,
   config,
   isMonthly,

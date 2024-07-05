@@ -6,11 +6,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../components/ui/card';
-import { Progress } from '../components/ui/progress';
-import { formatDevice, formatPercent } from '../lib/utils';
+} from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { formatDevice, formatPercent } from '@/lib/utils';
 
-export function ProgressCard({
+export function CardProgress({
   description,
   value,
   subtitle,

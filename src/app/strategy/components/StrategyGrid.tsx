@@ -1,19 +1,19 @@
-import { useMemo } from 'react';
-import { ActionCard } from '../../../components/ActionCard';
-import { ChartInterests } from '../../../components/ChartInterests';
-import { ProgressCard } from '../../../components/ProgressCard';
-import { SnowballTable } from '../../../components/SnowballTable';
-import { SummaryCard } from '../../../components/SummaryCard';
+import { CardAction } from '@/components/cards/card-action';
+import { CardChart } from '@/components/cards/card-chart';
+import { CardProgress } from '@/components/cards/card-progress';
+import { SnowballTable } from '@/components/snowball-table';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card';
-import { InterestByYear } from '../../../services/getComposedInterest';
-import { CompoundInterestConfig } from '../../../validators/schema';
-import { formatDevice } from '../../../lib/utils';
+} from '@/components/ui/card';
+import { formatDevice } from '@/lib/utils';
+import { InterestByYear } from '@/services/getComposedInterest';
+import { CompoundInterestConfig } from '@/validators/schema';
+import { useMemo } from 'react';
+import { CardSummary } from '../../../components/cards/card-summary';
 
 export function StrategyGrid({
   interests,
@@ -31,7 +31,7 @@ export function StrategyGrid({
       <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
         <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 xl:grid-cols-7'>
           <div className='lg:col-span-3 sm:col-span-3 col-span-7 md:col-span-4'>
-            <ActionCard
+            <CardAction
               title='Tes intérêts composés'
               description="Découvrez notre puissante stratégie d'intérêts composés pour maximiser vos investissements."
               button={{
@@ -41,14 +41,14 @@ export function StrategyGrid({
             />
           </div>
           <div className='lg:col-span-2 sm:col-span-3 md:col-span-2 col-span-7'>
-            <ProgressCard
+            <CardProgress
               description='Le capital'
               value={lastYear.principal}
               ratio={config.targetPrincipal}
             />
           </div>
           <div className='lg:col-span-2 sm:col-span-3 md:col-span-2 col-span-7'>
-            <ProgressCard
+            <CardProgress
               description={
                 isMonthly ? 'Les intérets mensuels' : 'Les intérets annuels'
               }
@@ -72,7 +72,7 @@ export function StrategyGrid({
       <div className='grid items-start h-full'>
         <div className='sticky bottom-8 self-end'>
           <div className='flex flex-col gap-8'>
-            <SummaryCard
+            <CardSummary
               interests={interests}
               config={config}
               isMonthly={isMonthly}
@@ -80,7 +80,7 @@ export function StrategyGrid({
             <EmphasisResultCard interests={interests} config={config} />
             <Card>
               <CardContent className='pt-6'>
-                <ChartInterests
+                <CardChart
                   interests={interests}
                   config={config}
                   isMonthly={isMonthly}
