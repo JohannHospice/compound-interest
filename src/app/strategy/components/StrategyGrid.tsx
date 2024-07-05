@@ -13,6 +13,7 @@ import {
 } from '../../../components/ui/card';
 import { InterestByYear } from '../../../services/getComposedInterest';
 import { CompoundInterestConfig } from '../../../validators/schema';
+import { formatDevice } from '../../../lib/utils';
 
 export function StrategyGrid({
   interests,
@@ -117,6 +118,33 @@ function EmphasisResultCard({
           whenInterestOverpassCompound + 1
         } ans. Votre épargne fructifie d'elle-même!`,
         color: 'sky',
+      });
+    }
+    const principX = interests.findIndex(
+      (interest) =>
+        config.targetPrincipal && config.targetPrincipal <= interest.principal
+    );
+    if (principX !== -1) {
+      array.push({
+        title: 'Capital cible atteint',
+        description: `Vous avez atteint votre objectif de ${formatDevice(
+          config.targetPrincipal || 0
+        )} de capital en ${principX + 1} ans.`,
+        color: 'green',
+      });
+    }
+
+    const interestX = interests.findIndex(
+      (interest) =>
+        config.targetInterest && config.targetInterest <= interest.interest
+    );
+    if (interestX !== -1) {
+      array.push({
+        title: 'Intérêts annuel cible atteint',
+        description: `Vous avez atteint votre objectif de ${formatDevice(
+          config.targetInterest || 0
+        )} d'intérêts annuel en ${interestX + 1} ans.`,
+        color: 'green',
       });
     }
 
