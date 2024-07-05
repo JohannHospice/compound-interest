@@ -2,6 +2,7 @@ import { CardAction } from '@/components/cards/card-action';
 import { CardChart } from '@/components/cards/card-chart';
 import { CardProgress } from '@/components/cards/card-progress';
 import { CardSummary } from '@/components/cards/card-summary';
+import { strategySchema } from '@/components/forms/validators';
 import { SnowballTable } from '@/components/snowball-table';
 import {
   Card,
@@ -11,17 +12,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { StrategyModel } from '@/models/strategy';
 import { getComposedInterest } from '@/services/getComposedInterest';
 import { ClipboardButton } from './ClipboardButton';
-import { allSchema } from '../../../components/forms/validators';
-import * as yup from 'yup';
+
 export default function Strategy({
   searchParams,
 }: {
-  searchParams: yup.InferType<typeof allSchema>;
+  searchParams: StrategyModel;
 }) {
   try {
-    const config = allSchema.validateSync(searchParams);
+    const config = strategySchema.validateSync(searchParams);
     const interests = getComposedInterest(config);
     const lastYear = interests[interests.length - 1];
 

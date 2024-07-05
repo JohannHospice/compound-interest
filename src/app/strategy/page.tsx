@@ -11,16 +11,16 @@ import { ClipboardButton } from './components/ClipboardButton';
 import { StrategyGrid } from './components/StrategyGrid';
 import { ArrowLeft } from 'lucide-react';
 import { toQueryString } from '../../lib/utils';
-import { allSchema } from '../../components/forms/validators';
-import * as yup from 'yup';
+import { strategySchema } from '../../components/forms/validators';
+import { StrategyModel } from '../../models/strategy';
 
 export default function Strategy({
   searchParams,
 }: {
-  searchParams: yup.InferType<typeof allSchema>;
+  searchParams: StrategyModel;
 }) {
   try {
-    const config = allSchema.validateSync(searchParams);
+    const config = strategySchema.validateSync(searchParams);
     const interests = getComposedInterest(config);
 
     return (

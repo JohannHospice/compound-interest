@@ -8,7 +8,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { cn, formatDevice, formatPercent } from '@/lib/utils';
 import { InterestByYear } from '@/services/getComposedInterest';
-import { CompoundInterestConfig } from '@/validators/schema';
+import { StrategyModel } from '../../models/strategy';
 
 export function CardSummary({
   interests,
@@ -16,7 +16,7 @@ export function CardSummary({
   isMonthly,
 }: {
   interests: InterestByYear[];
-  config: CompoundInterestConfig;
+  config: StrategyModel;
   isMonthly?: boolean;
 }) {
   const factor = isMonthly ? 12 : 1;

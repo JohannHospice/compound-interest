@@ -2,7 +2,6 @@
 import { toQueryString } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
-import * as yup from 'yup';
 import { StepperProvider } from '../stepper';
 import {
   FinancialStepForm,
@@ -10,20 +9,20 @@ import {
   ProfileForm,
   TargetForm,
 } from './forms';
-import { allSchema } from './validators';
+import { StrategyModel } from '../../models/strategy';
 
 export function CompoundInterestStepper() {
   const params = useSearchParams();
   const router = useRouter();
 
-  const storedValues = useMemo<Partial<yup.InferType<typeof allSchema>>>(() => {
+  const storedValues = useMemo<Partial<StrategyModel>>(() => {
     const configFromParams: Record<string, any> = {};
     params.forEach((value, key) => (configFromParams[key] = value));
     return configFromParams;
   }, [params]);
 
   const onSubmit = useCallback(
-    (values: Partial<yup.InferType<typeof allSchema>>) => {
+    (values: Partial<StrategyModel>) => {
       router.push(
         `/strategy?${toQueryString({
           ...storedValues,
@@ -35,7 +34,7 @@ export function CompoundInterestStepper() {
   );
 
   const updateData = useCallback(
-    (values: Partial<yup.InferType<typeof allSchema>>) => {
+    (values: Partial<StrategyModel>) => {
       router.push('?' + toQueryString({ ...storedValues, ...values }));
     },
     [router, storedValues]

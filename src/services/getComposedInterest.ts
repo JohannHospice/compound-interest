@@ -1,8 +1,6 @@
-import { CompoundInterestConfig } from '../validators/schema';
+import { StrategyModel } from '../models/strategy';
 
-export function getComposedInterest(
-  config: CompoundInterestConfig
-): InterestByYear[] {
+export function getComposedInterest(config: StrategyModel): InterestByYear[] {
   const interests = [];
   let principal = config.principal;
   const toYear = config.from + config.until_age - config.age;

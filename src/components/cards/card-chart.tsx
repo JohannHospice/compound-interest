@@ -1,10 +1,10 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InterestByYear } from '@/services/getComposedInterest';
-import { CompoundInterestConfig } from '@/validators/schema';
 import { ChartOptions, LinearScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
+import { StrategyModel } from '../../models/strategy';
 
 Chart.register(LinearScale);
 
@@ -14,7 +14,7 @@ export function CardChart({
   isMonthly,
 }: {
   interests: InterestByYear[];
-  config: CompoundInterestConfig;
+  config: StrategyModel;
   isMonthly?: boolean;
 }) {
   const factor = isMonthly ? 12 : 1;
@@ -72,7 +72,7 @@ export function CardChart({
               {
                 label: 'Apports' + extension,
                 data: interests.map(
-                  (interest) => config.compound * (isMonthly ? 1 : 12)
+                  () => config.compound * (isMonthly ? 1 : 12)
                 ),
                 tension: 0.1,
                 fill: false,

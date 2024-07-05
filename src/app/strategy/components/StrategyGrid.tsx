@@ -1,6 +1,7 @@
 import { CardAction } from '@/components/cards/card-action';
 import { CardChart } from '@/components/cards/card-chart';
 import { CardProgress } from '@/components/cards/card-progress';
+import { CardSummary } from '@/components/cards/card-summary';
 import { SnowballTable } from '@/components/snowball-table';
 import {
   Card,
@@ -10,10 +11,9 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { formatDevice } from '@/lib/utils';
+import { StrategyModel } from '@/models/strategy';
 import { InterestByYear } from '@/services/getComposedInterest';
-import { CompoundInterestConfig } from '@/validators/schema';
 import { useMemo } from 'react';
-import { CardSummary } from '../../../components/cards/card-summary';
 
 export function StrategyGrid({
   interests,
@@ -21,7 +21,7 @@ export function StrategyGrid({
   isMonthly,
 }: {
   interests: InterestByYear[];
-  config: CompoundInterestConfig;
+  config: StrategyModel;
   isMonthly?: boolean;
 }) {
   const lastYear = interests[interests.length - 1];
@@ -99,7 +99,7 @@ function EmphasisResultCard({
   config,
 }: {
   interests: InterestByYear[];
-  config: CompoundInterestConfig;
+  config: StrategyModel;
 }) {
   const notifications = useMemo(() => {
     const array: {

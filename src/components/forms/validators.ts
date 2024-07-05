@@ -23,7 +23,7 @@ const performanceSchema = yup.object().shape({
   taxRate: yup.number().nonNullable().min(0).max(100).required(),
 });
 
-const allSchema = profileSchema
+const strategySchema = profileSchema
   .concat(investmentSchema)
   .concat(targetSchema)
   .concat(performanceSchema);
@@ -33,5 +33,5 @@ export {
   targetSchema,
   performanceSchema,
   profileSchema,
-  allSchema,
+  strategySchema,
 };
