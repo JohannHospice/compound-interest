@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { Button } from '../../components/ui/button';
 import {
   Tabs,
   TabsContent,
@@ -8,6 +10,8 @@ import { getComposedInterest } from '../../services/getComposedInterest';
 import { CompoundInterestConfig, schemaConfig } from '../../validators/schema';
 import { ClipboardButton } from './components/ClipboardButton';
 import { StrategyGrid } from './components/StrategyGrid';
+import { ArrowLeft } from 'lucide-react';
+import { toQueryString } from '../../lib/utils';
 
 export default function Strategy({
   searchParams,
@@ -21,12 +25,20 @@ export default function Strategy({
     return (
       <Tabs defaultValue='yearly'>
         <div className='p-14 gap-4 flex flex-col '>
-          <div className='flex gap-4 self-end'>
-            <ClipboardButton />
-            <TabsList>
-              <TabsTrigger value='monthly'>Mensuel</TabsTrigger>
-              <TabsTrigger value='yearly'>Annuel</TabsTrigger>
-            </TabsList>
+          <div className='flex justify-between'>
+            <Button variant='ghost' asChild className='gap-2'>
+              <Link href={'/?' + toQueryString(searchParams)}>
+                <ArrowLeft size={16} />
+                Modifier
+              </Link>
+            </Button>
+            <div className='flex gap-4 self-end'>
+              <ClipboardButton />
+              <TabsList>
+                <TabsTrigger value='monthly'>Mensuel</TabsTrigger>
+                <TabsTrigger value='yearly'>Annuel</TabsTrigger>
+              </TabsList>
+            </div>
           </div>
           <TabsContent value='monthly'>
             <StrategyGrid interests={interests} config={config} isMonthly />

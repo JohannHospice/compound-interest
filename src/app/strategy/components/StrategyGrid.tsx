@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { ActionCard } from '../../../components/ActionCard';
 import { ChartInterests } from '../../../components/ChartInterests';
 import { ProgressCard } from '../../../components/ProgressCard';
@@ -75,6 +76,7 @@ export function StrategyGrid({
               config={config}
               isMonthly={isMonthly}
             />
+            <EmphasisResultCard interests={interests} config={config} />
             <Card>
               <CardContent className='pt-6'>
                 <ChartInterests
@@ -88,5 +90,69 @@ export function StrategyGrid({
         </div>
       </div>
     </div>
+  );
+}
+
+function EmphasisResultCard({
+  interests,
+  config,
+}: {
+  interests: InterestByYear[];
+  config: CompoundInterestConfig;
+}) {
+  const notifications = useMemo(() => {
+    const array: {
+      title: string;
+      description: string;
+      color: string;
+    }[] = [];
+
+    const whenInterestOverpassCompound = interests.findIndex(
+      (interest) => interest.interest >= config.compound * 12
+    );
+    if (whenInterestOverpassCompound !== -1) {
+      array.push({
+        title: 'Intérêts dépassant les apports annuels',
+        description: `Vos intérêts dépassent vos apports annuels en ${
+          whenInterestOverpassCompound + 1
+        } ans. Votre épargne fructifie d'elle-même!`,
+        color: 'sky',
+      });
+    }
+
+    return array;
+  }, [interests, config]);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Points clés</CardTitle>
+        <CardDescription>
+          Vous avez {notifications.length} points clés à prendre en compte.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className='grid gap-4'>
+        <div>
+          {notifications.map((notification, index) => (
+            <div
+              key={index}
+              className='mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0'
+            >
+              <span
+                className={`flex h-2 w-2 translate-y-1 rounded-full bg-${notification.color}-500`}
+              />
+              <div className='space-y-1'>
+                <p className='text-sm font-medium leading-none'>
+                  {notification.title}
+                </p>
+                <p className='text-sm text-muted-foreground'>
+                  {notification.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

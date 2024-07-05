@@ -9,6 +9,13 @@ import { FormInputField } from './FormInputField';
 import { FormSliderField } from './FormSliderField';
 import { Stepper, StepperFooter, StepperHeading, useStepper } from './Stepper';
 import { Form } from './ui/form';
+import {
+  HandCoins,
+  TargetIcon,
+  TreesIcon,
+  User,
+  UserCircle,
+} from 'lucide-react';
 
 const stepOneSchema = yup.object().shape({
   from: yup
@@ -119,7 +126,7 @@ function ProfileForm({
         className='flex flex-1 flex-col justify-between'
       >
         <div className='space-y-8 flex flex-col'>
-          <StepperHeading title="Votre profil d'investisseur">
+          <StepperHeading icon={UserCircle} title="Votre profil d'investisseur">
             Pour déterminer la meilleure stratégie d’investissement pour vous,
             nous avons besoin de quelques informations sur votre situation
             actuelle.
@@ -176,7 +183,7 @@ function InvestingCapacityStepForm({
         className='flex flex-1 flex-col justify-between'
       >
         <div className='space-y-8 flex flex-col'>
-          <StepperHeading title="Votre capacité d'épargne">
+          <StepperHeading icon={HandCoins} title="Votre capacité d'épargne">
             Pour déterminer votre capacité d&apos;épargne, nous avons besoin de
             quelques informations supplémentaires.
           </StepperHeading>
@@ -225,7 +232,7 @@ function TargetStepForm({
         className='flex flex-1 flex-col justify-between'
       >
         <div className='space-y-8 flex flex-col'>
-          <StepperHeading title='Vos objectifs financiers'>
+          <StepperHeading icon={TargetIcon} title='Vos objectifs financiers'>
             Pour déterminer la meilleure stratégie d’investissement pour vous,
             nous avons besoin de quelques informations sur vos objectifs
             financiers.
@@ -281,7 +288,7 @@ function FinancialStepForm({
         className='flex flex-1 flex-col justify-between'
       >
         <div className='space-y-8 flex flex-col'>
-          <StepperHeading title="L'environnement financier">
+          <StepperHeading icon={TreesIcon} title="L'environnement financier">
             Lors de vos investissements, plusieurs paramètres financiers sont à
             prendre en compte pour déterminer la meilleure stratégie
             d’investissement pour vous.

@@ -76,13 +76,18 @@ export function StepperFooter({
 export function StepperHeading({
   title,
   children,
+  icon: Icon,
 }: {
   title: string;
   children: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
 }) {
   return (
     <div className='space-y-4 flex flex-col'>
-      <h2 className='text-2xl font-bold'>{title}</h2>
+      <h2 className='text-2xl font-bold flex items-center'>
+        <Icon className='h-8 w-8 inline-block mr-2' />
+        {title}
+      </h2>
       <p className='text-lg text-gray-600'>{children}</p>
     </div>
   );

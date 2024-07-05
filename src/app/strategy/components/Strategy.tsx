@@ -3,7 +3,6 @@ import { ChartInterests } from '../../../components/ChartInterests';
 import { ProgressCard } from '../../../components/ProgressCard';
 import { SnowballTable } from '../../../components/SnowballTable';
 import { SummaryCard } from '../../../components/SummaryCard';
-import { Button } from '../../../components/ui/button';
 import {
   Card,
   CardContent,
@@ -17,7 +16,6 @@ import {
   CompoundInterestConfig,
   schemaConfig,
 } from '../../../validators/schema';
-import { Copy } from 'lucide-react';
 import { ClipboardButton } from './ClipboardButton';
 
 export default function Strategy({
