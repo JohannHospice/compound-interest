@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { FormCompoundInterest } from '../components/FormCompoundInterest';
 
 export default function Home() {
@@ -16,7 +17,9 @@ export default function Home() {
         </h1>
       </div>
       <div className='p-10 lg:p-24 flex-1 flex flex-col'>
-        <FormCompoundInterest />
+        <Suspense>
+          <FormCompoundInterest />
+        </Suspense>
       </div>
     </main>
   );
