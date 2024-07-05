@@ -25,11 +25,7 @@ const stepOneSchema = yup.object().shape({
     .max(new Date().getFullYear())
     .required(),
   age: yup.number().nonNullable().min(7).max(120).required(),
-  until_age: yup
-    .number()
-    .when('age', (age, schema) => schema.min(age as unknown as number))
-    .max(120)
-    .required(),
+  until_age: yup.number().max(120).required(),
 });
 export const step2schema = yup.object().shape({
   principal: yup.number().min(0).required(),
