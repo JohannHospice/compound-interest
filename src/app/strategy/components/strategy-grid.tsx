@@ -80,7 +80,7 @@ export function StrategyGrid({
               open={!isSmallDevice ? true : undefined}
             >
               <p className='text-sm text-muted-foreground flex justify-between items-center sm:hidden'>
-                {interests.length} années d'investissement.
+                {interests.length} années d&apos;investissement.
                 <CollapsibleTrigger asChild>
                   <Button variant='ghost' size='sm' className='w-9 p-0'>
                     <ChevronsUpDown className='h-4 w-4' />
