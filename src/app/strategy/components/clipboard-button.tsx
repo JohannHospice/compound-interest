@@ -13,7 +13,7 @@ export function ClipboardButton({}) {
       className='gap-2'
     >
       <Copy size={16} />
-      Copier le lien
+      <span className='hidden sm:inline-block'>Copier le lien</span>
     </Button>
   );
 }

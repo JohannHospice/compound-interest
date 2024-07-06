@@ -20,8 +20,9 @@ export function CardChart({
   const factor = isMonthly ? 12 : 1;
   const options: ChartOptions<'line'> = {
     aspectRatio: 1,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     responsive: true,
+    resizeDelay: 200,
     elements: {
       point: {
         radius: 0,
@@ -48,71 +49,76 @@ export function CardChart({
   return (
     <Tabs defaultValue='capital' className='gap-4 flex flex-col'>
       <TabsContent value='interest'>
-        <Line
-          data={{
-            labels: interests.map((interest) => interest.year),
-            datasets: [
-              {
-                label: "Objectif d'intérets" + extension,
-                data: config.targetInterest
-                  ? interests.map(
-                      () =>
-                        config.targetInterest && config.targetInterest / factor
-                    )
-                  : [],
-                fill: false,
-                tension: 0.1,
-              },
-              {
-                label: 'Intérêts' + extension,
-                data: interests.map((interest) => interest.interest / factor),
-                tension: 0.1,
-                fill: true,
-              },
-              {
-                label: 'Apports' + extension,
-                data: interests.map(
-                  () => config.compound * (isMonthly ? 1 : 12)
-                ),
-                tension: 0.1,
-                fill: false,
-              },
-            ],
-          }}
-          options={options}
-        />
+        <div className='relative aspect-square'>
+          <Line
+            options={options}
+            data={{
+              labels: interests.map((interest) => interest.year),
+              datasets: [
+                {
+                  label: "Objectif d'intérets" + extension,
+                  data: config.targetInterest
+                    ? interests.map(
+                        () =>
+                          config.targetInterest &&
+                          config.targetInterest / factor
+                      )
+                    : [],
+                  fill: false,
+                  tension: 0.1,
+                },
+                {
+                  label: 'Intérêts' + extension,
+                  data: interests.map((interest) => interest.interest / factor),
+                  tension: 0.1,
+                  fill: true,
+                },
+                {
+                  label: 'Apports' + extension,
+                  data: interests.map(
+                    () => config.compound * (isMonthly ? 1 : 12)
+                  ),
+                  tension: 0.1,
+                  fill: false,
+                },
+              ],
+            }}
+          />
+        </div>
       </TabsContent>
       <TabsContent value='capital'>
-        <Line
-          data={{
-            labels: interests.map((interest) => interest.year),
-            datasets: [
-              {
-                label: 'Objectif de capital',
-                data: config.targetPrincipal
-                  ? interests.map(
-                      () => config.targetPrincipal && config.targetPrincipal
-                    )
-                  : [],
-                fill: false,
-                tension: 0.1,
-              },
-              {
-                label: 'Apport total',
-                data: interests.map((interest) => interest.compound),
-                tension: 0.1,
-                fill: true,
-              },
-              {
-                label: 'Capital total',
-                data: interests.map((interest) => interest.principal),
-                tension: 0.1,
-                fill: true,
-              },
-            ],
-          }}
-          options={options}
-        />
+        <div className='relative aspect-square'>
+          <Line
+            options={options}
+            data={{
+              labels: interests.map((interest) => interest.year),
+              datasets: [
+                {
+                  label: 'Objectif de capital',
+                  data: config.targetPrincipal
+                    ? interests.map(
+                        () => config.targetPrincipal && config.targetPrincipal
+                      )
+                    : [],
+                  fill: false,
+                  tension: 0.1,
+                },
+                {
+                  label: 'Apport total',
+                  data: interests.map((interest) => interest.compound),
+                  tension: 0.1,
+                  fill: true,
+                },
+                {
+                  label: 'Capital total',
+                  data: interests.map((interest) => interest.principal),
+                  tension: 0.1,
+                  fill: true,
+                },
+              ],
+            }}
+          />
+        </div>
       </TabsContent>
       <TabsList className='w-full'>
         <TabsTrigger className='w-full' value='interest'>

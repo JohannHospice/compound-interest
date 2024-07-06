@@ -7,8 +7,8 @@ import {
   TabsTrigger,
 } from '../../components/ui/tabs';
 import { getComposedInterest } from '../../services/getComposedInterest';
-import { ClipboardButton } from './components/ClipboardButton';
-import { StrategyGrid } from './components/StrategyGrid';
+import { ClipboardButton } from './components/clipboard-button';
+import { StrategyGrid } from './components/strategy-grid';
 import { ArrowLeft } from 'lucide-react';
 import { toQueryString } from '../../lib/utils';
 import { strategySchema } from '../../components/forms/validators';
@@ -26,7 +26,7 @@ export default function Strategy({
     return (
       <Tabs defaultValue='yearly'>
         <div className='p-14 gap-4 flex flex-col '>
-          <div className='flex justify-between'>
+          <div className='flex justify-between gap-4'>
             <Button variant='ghost' asChild className='gap-2'>
               <Link href={'/?' + toQueryString(searchParams)}>
                 <ArrowLeft size={16} />

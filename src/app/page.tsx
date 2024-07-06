@@ -14,7 +14,7 @@ export default function Home() {
         />
         <div className='bg-black opacity-50 absolute inset-0'></div>
         <div className='absolute top-0 left-0 m-10 lg:m-24'>
-          <h1 className='text-4xl font-semibold text-white'>Snowballed</h1>
+          <h1 className='text-4xl font-semibold text-white'>SnowballR</h1>
           <h2 className='text-2xl text-gray-200 mt-4'>
             Découvrez comment votre épargne peut vous rapporter plus que vous ne
             le pensez.

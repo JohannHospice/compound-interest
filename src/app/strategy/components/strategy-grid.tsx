@@ -27,7 +27,7 @@ export function StrategyGrid({
   const lastYear = interests[interests.length - 1];
   const factor = isMonthly ? 12 : 1;
   return (
-    <div className='grid flex-1 items-start gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
+    <div className='grid gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
         <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 xl:grid-cols-7'>
           <div className='lg:col-span-3 sm:col-span-3 col-span-7 md:col-span-4'>
@@ -105,7 +105,7 @@ function EmphasisResultCard({
     const array: {
       title: string;
       description: string;
-      color: string;
+      theme: string;
     }[] = [];
 
     const whenInterestOverpassCompound = interests.findIndex(
@@ -117,7 +117,7 @@ function EmphasisResultCard({
         description: `Vos intérêts dépassent vos apports annuels en ${
           whenInterestOverpassCompound + 1
         } ans. Votre épargne fructifie d'elle-même!`,
-        color: 'sky',
+        theme: 'info',
       });
     }
     const principX = interests.findIndex(
@@ -130,7 +130,7 @@ function EmphasisResultCard({
         description: `Vous avez atteint votre objectif de ${formatDevice(
           config.targetPrincipal || 0
         )} de capital en ${principX + 1} ans.`,
-        color: 'green',
+        theme: 'green',
       });
     }
 
@@ -144,7 +144,7 @@ function EmphasisResultCard({
         description: `Vous avez atteint votre objectif de ${formatDevice(
           config.targetInterest || 0
         )} d'intérêts annuel en ${interestX + 1} ans.`,
-        color: 'green',
+        theme: 'green',
       });
     }
 
@@ -167,7 +167,12 @@ function EmphasisResultCard({
               className='mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0'
             >
               <span
-                className={`flex h-2 w-2 translate-y-1 rounded-full bg-${notification.color}-500`}
+                className={`flex h-2 w-2 translate-y-1 rounded-full 
+                  ${
+                    notification.theme === 'info'
+                      ? 'bg-sky-500'
+                      : 'bg-green-500'
+                  }`}
               />
               <div className='space-y-1'>
                 <p className='text-sm font-medium leading-none'>
