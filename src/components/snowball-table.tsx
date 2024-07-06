@@ -16,13 +16,13 @@ export function SnowballTable({
       <TableHeader>
         <TableRow>
           <TableCell>Année</TableCell>
-          <TableCell className='hidden sm:table-cell'>Capital</TableCell>
+          <TableCell className='md:text-left text-right'>Capital</TableCell>
           <TableCell className='hidden sm:table-cell'>Apport total</TableCell>
           <TableCell className='hidden md:table-cell'>Statut</TableCell>
           <TableCell className='hidden md:table-cell'>
             Intéret brut{isMonthly ? ' mensuel' : ' annuel'}
           </TableCell>
-          <TableCell className='text-right'>
+          <TableCell className='hidden sm:table-cell text-right'>
             Intéret net{isMonthly ? ' mensuel' : ' annuel'}
           </TableCell>
         </TableRow>

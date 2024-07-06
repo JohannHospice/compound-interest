@@ -1,3 +1,4 @@
+'use client';
 import { CardAction } from '@/components/cards/card-action';
 import { CardChart } from '@/components/cards/card-chart';
 import { CardProgress } from '@/components/cards/card-progress';
@@ -14,6 +15,13 @@ import { formatDevice } from '@/lib/utils';
 import { StrategyModel } from '@/models/strategy';
 import { InterestByYear } from '@/services/getComposedInterest';
 import { useMemo } from 'react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../../../components/ui/collapsible';
+import { Button } from '../../../components/ui/button';
+import { ChevronsUpDown } from 'lucide-react';
 
 export function StrategyGrid({
   interests,
@@ -26,6 +34,8 @@ export function StrategyGrid({
 }) {
   const lastYear = interests[interests.length - 1];
   const factor = isMonthly ? 12 : 1;
+
+  const isSmallDevice = !!window ? window.innerWidth < 1024 : false;
   return (
     <div className='grid gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
@@ -58,14 +68,33 @@ export function StrategyGrid({
           </div>
         </div>
         <Card>
-          <CardHeader className='px-7'>
+          <CardHeader>
             <CardTitle>Intérets</CardTitle>
             <CardDescription>
               L&apos;évolution de votre capital pour chaque année.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SnowballTable interestByYears={interests} isMonthly={isMonthly} />
+            <Collapsible
+              defaultOpen={!isSmallDevice}
+              open={!isSmallDevice ? true : undefined}
+            >
+              <p className='text-sm text-muted-foreground flex justify-between items-center sm:hidden'>
+                {interests.length} années d'investissement.
+                <CollapsibleTrigger asChild>
+                  <Button variant='ghost' size='sm' className='w-9 p-0'>
+                    <ChevronsUpDown className='h-4 w-4' />
+                    <span className='sr-only'>Toggle</span>
+                  </Button>
+                </CollapsibleTrigger>
+              </p>
+              <CollapsibleContent>
+                <SnowballTable
+                  interestByYears={interests}
+                  isMonthly={isMonthly}
+                />
+              </CollapsibleContent>
+            </Collapsible>
           </CardContent>
         </Card>
       </div>

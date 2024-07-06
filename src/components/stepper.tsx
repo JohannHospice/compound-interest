@@ -62,16 +62,18 @@ export const StepperFooter = (props: {
   const { index, length, next, previous } = useStepper();
 
   return (
-    <div className='flex justify-between gap-4'>
+    <div className='flex justify-between flex-wrap mt-8'>
       {index > 0 ? (
         <Button variant='ghost' onClick={previous}>
           <ArrowLeft className='mr-2 h-4 w-4' />
-          Retour à l&apos;étape précédente
+          <span className='hidden sm:inline-block'>
+            Retour à l&apos;étape précédente
+          </span>
         </Button>
       ) : (
         <div />
       )}
-      <div className='flex gap-4'>
+      <div className='flex gap-4 ml-4 justify-end flex-1'>
         {props.isSkippable && (
           <Button variant='outline' onClick={next}>
             Passer

@@ -156,9 +156,8 @@ function TargetForm({ onSubmit, values }: FormProps<typeof targetSchema>) {
       >
         <div className='space-y-8 flex flex-col'>
           <StepperHeading icon={TargetIcon} title='Vos objectifs financiers'>
-            Pour déterminer la meilleure stratégie d’investissement pour vous,
-            nous avons besoin de quelques informations sur vos objectifs
-            financiers.
+            Des objectifs clair et précis vous permettront de mieux comprendre
+            les enjeux
           </StepperHeading>
           <FormInputField
             control={form.control}
