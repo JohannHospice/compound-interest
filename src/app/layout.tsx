@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
-  title: 'Snowballed',
+  title: 'SnowballR',
   description: 'An interest calculator for snowballing your investments.',
 };
 

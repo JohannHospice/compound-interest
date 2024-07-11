@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/card';
 import { formatDevice } from '@/lib/utils';
 import { StrategyModel } from '@/models/strategy';
-import { InterestByYear } from '@/services/getComposedInterest';
 import { useMemo } from 'react';
 import {
   Collapsible,
@@ -22,6 +21,7 @@ import {
 } from '../../../components/ui/collapsible';
 import { Button } from '../../../components/ui/button';
 import { ChevronsUpDown } from 'lucide-react';
+import { InterestByYear } from '../../../models/interest';
 
 export function StrategyGrid({
   interests,

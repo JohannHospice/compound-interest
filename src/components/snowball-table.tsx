@@ -1,7 +1,7 @@
 import { cn, formatDevice } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from './ui/table';
-import { InterestByYear } from '../services/getComposedInterest';
 import { Badge } from './ui/badge';
+import { InterestByYear } from '../models/interest';
 
 export function SnowballTable({
   interestByYears,
