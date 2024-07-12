@@ -15,6 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Input, InputProps } from '@/components/ui/input';
 import { SliderProps } from '@radix-ui/react-slider';
 import { Slider } from './slider';
+import { Switch } from './switch';
+import { SwitchProps } from '@radix-ui/react-switch';
 
 const Form = FormProvider;
 
@@ -263,6 +265,21 @@ const FormSlider = React.forwardRef(
 );
 FormSlider.displayName = 'FormInput';
 
+type FormSwitchProps = SwitchProps & {
+  label?: string;
+};
+const FormSwitch = React.forwardRef(
+  (props: FormSwitchProps, ref: React.Ref<HTMLButtonElement>) => {
+    return (
+      <div className='flex gap-2 items-center'>
+        <Switch {...props} ref={ref} />
+        <Label htmlFor={props.id}>{props.label}</Label>
+      </div>
+    );
+  }
+);
+FormSwitch.displayName = 'FormSwitch';
+
 export {
   useFormField,
   Form,
@@ -276,4 +293,5 @@ export {
   FormInputField,
   FormSliderField,
   FormSlider,
+  FormSwitch,
 };

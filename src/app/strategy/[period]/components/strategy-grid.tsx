@@ -13,29 +13,43 @@ import {
 } from '@/components/ui/card';
 import { formatDevice } from '@/lib/utils';
 import { StrategyModel } from '@/models/strategy';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../../../components/ui/collapsible';
-import { Button } from '../../../components/ui/button';
+} from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
 import { ChevronsUpDown } from 'lucide-react';
-import { InterestByYear } from '../../../models/interest';
+import { InterestByYear } from '@/models/interest';
+import { useParams } from 'next/navigation';
 
 export function StrategyGrid({
   interests,
   config,
-  isMonthly,
 }: {
   interests: InterestByYear[];
   config: StrategyModel;
-  isMonthly?: boolean;
 }) {
   const lastYear = interests[interests.length - 1];
+  const { period } = useParams();
+  const isMonthly = 'monthly' === period;
+
   const factor = isMonthly ? 12 : 1;
 
-  const isSmallDevice = !!window ? window.innerWidth < 1024 : false;
+  const [isTableOpen, setIsTableOpen] = useState(false);
+  useEffect(() => {
+    if (!window) {
+      return;
+    }
+
+    const handleResize = () => setIsTableOpen(window.innerWidth >= 1024);
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className='grid gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
@@ -75,13 +89,15 @@ export function StrategyGrid({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Collapsible
-              defaultOpen={!isSmallDevice}
-              open={!isSmallDevice ? true : undefined}
-            >
-              <p className='text-sm text-muted-foreground flex justify-between items-center sm:hidden'>
+            <Collapsible open={isTableOpen}>
+              <p className='text-sm text-muted-foreground flex justify-between items-center md:hidden'>
                 {interests.length} années d&apos;investissement.
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger
+                  asChild
+                  onClick={() => {
+                    setIsTableOpen(!isTableOpen);
+                  }}
+                >
                   <Button variant='ghost' size='sm' className='w-9 p-0'>
                     <ChevronsUpDown className='h-4 w-4' />
                     <span className='sr-only'>Toggle</span>
@@ -92,6 +108,8 @@ export function StrategyGrid({
                 <SnowballTable
                   interestByYears={interests}
                   isMonthly={isMonthly}
+                  targetPrincipal={config.targetPrincipal}
+                  targetInterest={config.targetInterest}
                 />
               </CollapsibleContent>
             </Collapsible>

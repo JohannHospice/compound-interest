@@ -7,8 +7,8 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn, formatDevice, formatPercent } from '@/lib/utils';
-import { StrategyModel } from '../../models/strategy';
-import { InterestByYear } from '../../models/interest';
+import { StrategyModel } from '@/models/strategy';
+import { InterestByYear } from '@/models/interest';
 
 export function CardSummary({
   interests,

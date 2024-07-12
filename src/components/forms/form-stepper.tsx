@@ -9,7 +9,7 @@ import {
   ProfileForm,
   TargetForm,
 } from './forms';
-import { StrategyModel } from '../../models/strategy';
+import { StrategyModel } from '@/models/strategy';
 
 export function CompoundInterestStepper() {
   const params = useSearchParams();
@@ -24,7 +24,7 @@ export function CompoundInterestStepper() {
   const onSubmit = useCallback(
     (values: Partial<StrategyModel>) => {
       router.push(
-        `/strategy?${toQueryString({
+        `/strategy/yearly?${toQueryString({
           ...storedValues,
           ...values,
         })}`

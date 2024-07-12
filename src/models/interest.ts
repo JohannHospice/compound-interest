@@ -5,7 +5,4 @@ export interface InterestByYear {
   interest: number;
   compound: number;
   taxedInterest: number;
-  status: Status[];
 }
-
-export type Status = 'Capital atteint' | 'Intérets atteint';

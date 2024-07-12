@@ -17,7 +17,7 @@ import {
   performanceSchema,
   profileSchema,
   targetSchema,
-} from './validators';
+} from '@/validators';
 
 type FormProps<T extends yup.ISchema<any, any>> = {
   onSubmit: (data: yup.InferType<T>) => void;

@@ -30,9 +30,7 @@ export default function Home() {
         </div>
       </div>
       <div className='p-4 sm:p-10 lg:p-24 flex-1 flex flex-col'>
-        <Suspense>
-          <CompoundInterestStepper />
-        </Suspense>
+        <CompoundInterestStepper />
       </div>
     </main>
   );
